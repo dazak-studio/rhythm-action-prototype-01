@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour {
 	private void Start ()
 	{
 		_animator = GetComponent<Animator>();
+		_rigidbody = GetComponent<Rigidbody>();
 	}
 
 	private void FixedUpdate()
@@ -34,7 +35,9 @@ public class PlayerController : MonoBehaviour {
 			moveRate = 0.2f;
 			
 		transform.localPosition += velocity * Time.fixedDeltaTime * moveRate;
-		transform.Rotate(Vector3.up * horizontal * RotateSpeed);
+		transform.Rotate(Vector3.up * horizontal * RotateSpeed * moveRate);
+		
+		
 	}
 
 	private void Update()
@@ -44,11 +47,26 @@ public class PlayerController : MonoBehaviour {
 			_animator.SetBool("Attack", true);
 		}
 
-		if (!_currentBaseState.IsName("Base Layer.Attack") || _animator.IsInTransition(0)) return;		
+		if (!_currentBaseState.IsName("Base Layer.Attack") || _animator.IsInTransition(0)) return;
 		
 		_animator.SetBool("Attack", false);
 
 	}
+
+	private void OnCollisionEnter(Collision other)
+	{
+		if (other.transform.tag.Contains("Enemy"))
+			_animator.SetBool("Attack", true);		
+	}
+
+//	private void CollisionRayCast()
+//	{
+//		RaycastHit hitObject;
+//		if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hitObject, 1f))
+//		{
+//			print("?");
+//		}
+//	}
 
 	public float AnimationSpeed = 1.5f;
 	public float RotateSpeed = 2.0f;
@@ -56,6 +74,7 @@ public class PlayerController : MonoBehaviour {
 	public float BackwardSpeed = 2.0f;	
 	
 	private Animator _animator;
+	private Rigidbody _rigidbody;
 	private AnimatorStateInfo _currentBaseState;
 
 	private static int _idleState = Animator.StringToHash("Base Layer.Idle");

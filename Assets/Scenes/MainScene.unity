@@ -310,6 +310,11 @@ Prefab:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 136798679202933340, guid: d7c7d1ec28332c64b9871a1d9b0a1b15,
+        type: 2}
+      propertyPath: m_Direction
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d7c7d1ec28332c64b9871a1d9b0a1b15, type: 2}
   m_IsPrefabParent: 0
@@ -332,7 +337,7 @@ GameObject:
   - component: {fileID: 1663539986}
   m_Layer: 0
   m_Name: Obstacle
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
