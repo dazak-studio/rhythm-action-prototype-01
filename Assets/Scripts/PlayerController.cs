@@ -32,7 +32,7 @@ public class PlayerController : MonoBehaviour {
 		var moveRate = 1.0f;
 
 		if (_currentBaseState.IsName("Base Layer.Attack"))
-			moveRate = 0.2f;
+			moveRate = 0.1f;
 			
 		transform.localPosition += velocity * Time.fixedDeltaTime * moveRate;
 		transform.Rotate(Vector3.up * horizontal * RotateSpeed * moveRate);
