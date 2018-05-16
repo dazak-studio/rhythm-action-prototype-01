@@ -36,8 +36,11 @@ public class PlayerController : MonoBehaviour {
 			
 		transform.localPosition += velocity * Time.fixedDeltaTime * moveRate;
 		transform.Rotate(Vector3.up * horizontal * RotateSpeed * moveRate);
-		
-		
+	}
+
+	public void Move(float angle)
+	{
+		transform.Rotate(Vector3.up * -angle);		
 	}
 
 	private void Update()
