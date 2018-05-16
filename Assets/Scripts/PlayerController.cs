@@ -3,17 +3,11 @@ using System.Collections.Generic;
 using UnityEditor.Animations;
 using UnityEngine;
 
-public class UnityChanController : MonoBehaviour {
+public class PlayerController : MonoBehaviour {
 
-	// Use this for initialization
-	void Start ()
+	private void Start ()
 	{
 		_animator = GetComponent<Animator>();
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
 	}
 
 	private void FixedUpdate()
