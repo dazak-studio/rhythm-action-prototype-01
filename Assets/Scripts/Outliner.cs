@@ -2,6 +2,7 @@
 
 public class Outliner : MonoBehaviour {
 
+	// Use this for initialization
 	private void Start ()
 	{
 		_playerController = _playerController ? _playerController : 
