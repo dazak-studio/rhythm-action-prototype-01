@@ -7,7 +7,7 @@ public class PlayerController : MonoBehaviour {
 		_animator = GetComponent<Animator>();
 		_destPoint = transform.TransformDirection(Vector3.forward);
 		_runningTime = Mathf.Epsilon;
-//		_attackedObject = null;
+		_attackedObject = null;
 		_isAction = false;
 	}
 
