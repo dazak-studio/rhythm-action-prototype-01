@@ -19,11 +19,11 @@ public class EventManager : MonoBehaviour {
 
 			if (Physics.Raycast(rayFire, out hitFire))
 			{				
-				_playerController.UpdateMoveDestination(hitFire.point);
+				_playerController.UpdateMoveDestination(hitFire);
 			}
 			else
 			{
-				_playerController.UpdateMoveDestination(_playerController.transform.position);
+				_playerController.UpdateMoveDestination(Camera.main.ScreenToWorldPoint(Input.mousePosition));
 			}
 		}
 	}
