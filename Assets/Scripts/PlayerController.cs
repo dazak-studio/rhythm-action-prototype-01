@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.ComTypes;
 using UnityEditor.Animations;
 using UnityEngine;
+using UnityScript.Steps;
 
 public class PlayerController : MonoBehaviour {
 
@@ -9,8 +11,10 @@ public class PlayerController : MonoBehaviour {
 	{
 		_animator = GetComponent<Animator>();
 		_rigidbody = GetComponent<Rigidbody>();
+		_destination = transform.position;		
 	}
 
+	/*
 	private void FixedUpdate()
 	{		
 		var horizontal = Input.GetAxis("Horizontal");
@@ -37,10 +41,13 @@ public class PlayerController : MonoBehaviour {
 		transform.localPosition += velocity * Time.fixedDeltaTime * moveRate;
 		transform.Rotate(Vector3.up * horizontal * RotateSpeed * moveRate);
 	}
+	*/
 
-	public void Move(float angle)
+	private void FixedUpdate()
 	{
-		transform.Rotate(Vector3.up * -angle);		
+		var targetRot = Quaternion.LookRotation(_destination);
+		
+		transform.rotation = Quaternion.Lerp(transform.rotation, targetRot, Time.deltaTime);
 	}
 
 	private void Update()
@@ -56,33 +63,33 @@ public class PlayerController : MonoBehaviour {
 
 	}
 
+	public void UpdateMoveDestination(Vector3 destination)
+	{
+		destination.y = transform.position.y;
+		_destination = destination;
+//		transform.LookAt(destination);
+	}
+
 	private void OnCollisionEnter(Collision other)
 	{
 		if (other.transform.tag.Contains("Enemy"))
 			_animator.SetBool("Attack", true);		
 	}
 
-//	private void CollisionRayCast()
-//	{
-//		RaycastHit hitObject;
-//		if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hitObject, 1f))
-//		{
-//			print("?");
-//		}
-//	}
-
+	/*
 	public float AnimationSpeed = 1.5f;
 	public float RotateSpeed = 2.0f;
 	public float ForwardSpeed = 7.0f;
-	public float BackwardSpeed = 2.0f;	
+	public float BackwardSpeed = 2.0f;
+	*/
+
+	public float RotateSpeed = 0.1f; // The rate of the rotation of charcater (.0f < x <= 1.0f);
 	
 	private Animator _animator;
 	private Rigidbody _rigidbody;
 	private AnimatorStateInfo _currentBaseState;
 
-	private static int _idleState = Animator.StringToHash("Base Layer.Idle");
-	private static int _walkState = Animator.StringToHash("Base Layer.Walk");
-	private static int _restState = Animator.StringToHash("Base Layer.Rest");
-	private static readonly int AttackState = Animator.StringToHash("Base Layer.Attack");
+	private Vector3 _destination;
+	private readonly float _appendDistance = 1.0f; 
 
 }
