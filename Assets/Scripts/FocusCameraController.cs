@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class FocusCameraController : MonoBehaviour {
-
 	private void Start()
 	{
 		_viewMargin = transform.position;

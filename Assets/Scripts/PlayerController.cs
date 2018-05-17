@@ -11,7 +11,8 @@ public class PlayerController : MonoBehaviour {
 	{
 		_animator = GetComponent<Animator>();
 		_rigidbody = GetComponent<Rigidbody>();
-		_destination = transform.position;		
+		_destPoint = transform.TransformDirection(Vector3.forward);
+		_runningTime = Mathf.Epsilon;
 	}
 
 	/*
@@ -44,10 +45,34 @@ public class PlayerController : MonoBehaviour {
 	*/
 
 	private void FixedUpdate()
-	{
-		var targetRot = Quaternion.LookRotation(_destination);
+	{	
+		// Character position update
+		_animator.SetFloat("Speed", _runningTime);
+		_animator.speed = StepSpeed * 0.35f;
+
+		if (_runningTime > Mathf.Epsilon)
+		{
+			var velocity = transform.TransformDirection(Vector3.forward);
+			transform.localPosition += velocity * Time.fixedDeltaTime * StepSpeed * _animator.GetFloat("Speed");
+			_runningTime -= Time.fixedDeltaTime;
+			var angle = Mathf.LerpAngle(transform.eulerAngles.y, _destAngle, Time.fixedDeltaTime * RotateSpeed);
+			transform.eulerAngles = new Vector3(0, angle, 0);
+			
+			
+			// Character rotation
+			/*
+			var turnAngle = Vector3.Angle(transform.position, _destination);
+			print(turnAngle);
+			var rot = Mathf.LerpAngle(transform.eulerAngles.y, turnAngle, Time.deltaTime * 180.0f);
+			transform.eulerAngles = Vector3.up * rot;
+			*/
+
+//			transform.LookAt(_destination);
+		}
 		
-		transform.rotation = Quaternion.Lerp(transform.rotation, targetRot, Time.deltaTime);
+		
+
+
 	}
 
 	private void Update()
@@ -66,8 +91,10 @@ public class PlayerController : MonoBehaviour {
 	public void UpdateMoveDestination(Vector3 destination)
 	{
 		destination.y = transform.position.y;
-		_destination = destination;
-//		transform.LookAt(destination);
+		_destPoint = destination;
+		var dist = _destPoint - transform.position;
+		_destAngle = Mathf.Atan2(dist.x, dist.z) * Mathf.Rad2Deg;
+		_runningTime = 1.5f;
 	}
 
 	private void OnCollisionEnter(Collision other)
@@ -83,13 +110,15 @@ public class PlayerController : MonoBehaviour {
 	public float BackwardSpeed = 2.0f;
 	*/
 
-	public float RotateSpeed = 0.1f; // The rate of the rotation of charcater (.0f < x <= 1.0f);
-	
+	public float StepSpeed = 1.0f;
+	public float RotateSpeed = 2.0f;
+
 	private Animator _animator;
 	private Rigidbody _rigidbody;
 	private AnimatorStateInfo _currentBaseState;
 
-	private Vector3 _destination;
-	private readonly float _appendDistance = 1.0f; 
+	private Vector3 _destPoint;
+	private float _destAngle;
+	private float _runningTime;
 
 }
