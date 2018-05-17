@@ -1,9 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.InteropServices.ComTypes;
-using UnityEditor.Animations;
-using UnityEngine;
-using UnityScript.Steps;
+﻿using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
 
@@ -15,40 +10,10 @@ public class PlayerController : MonoBehaviour {
 		_runningTime = Mathf.Epsilon;
 	}
 
-	/*
-	private void FixedUpdate()
-	{		
-		var horizontal = Input.GetAxis("Horizontal");
-		var vertical = Input.GetAxis("Vertical");
-
-		_animator.SetFloat("Speed", vertical);
-		_animator.SetFloat("Direction", horizontal);
-		_animator.speed = AnimationSpeed;
-		_currentBaseState = _animator.GetCurrentAnimatorStateInfo(0);
-
-		var velocity = Vector3.forward * vertical;
-		velocity = transform.TransformDirection(velocity);
-
-		if (vertical > 0.1f)
-			velocity *= ForwardSpeed;
-		else if (vertical < -0.1f)
-			velocity *= BackwardSpeed;
-
-		var moveRate = 1.0f;
-
-		if (_currentBaseState.IsName("Base Layer.Attack"))
-			moveRate = 0.1f;
-			
-		transform.localPosition += velocity * Time.fixedDeltaTime * moveRate;
-		transform.Rotate(Vector3.up * horizontal * RotateSpeed * moveRate);
-	}
-	*/
-
 	private void FixedUpdate()
 	{	
-		// Character position update
 		_animator.SetFloat("Speed", _runningTime);
-		_animator.speed = StepSpeed * 0.35f;
+		_animator.speed = StepSpeed * 0.25f;
 
 		if (_runningTime > Mathf.Epsilon)
 		{
@@ -57,22 +22,7 @@ public class PlayerController : MonoBehaviour {
 			_runningTime -= Time.fixedDeltaTime;
 			var angle = Mathf.LerpAngle(transform.eulerAngles.y, _destAngle, Time.fixedDeltaTime * RotateSpeed);
 			transform.eulerAngles = new Vector3(0, angle, 0);
-			
-			
-			// Character rotation
-			/*
-			var turnAngle = Vector3.Angle(transform.position, _destination);
-			print(turnAngle);
-			var rot = Mathf.LerpAngle(transform.eulerAngles.y, turnAngle, Time.deltaTime * 180.0f);
-			transform.eulerAngles = Vector3.up * rot;
-			*/
-
-//			transform.LookAt(_destination);
 		}
-		
-		
-
-
 	}
 
 	private void Update()
@@ -102,13 +52,6 @@ public class PlayerController : MonoBehaviour {
 		if (other.transform.tag.Contains("Enemy"))
 			_animator.SetBool("Attack", true);		
 	}
-
-	/*
-	public float AnimationSpeed = 1.5f;
-	public float RotateSpeed = 2.0f;
-	public float ForwardSpeed = 7.0f;
-	public float BackwardSpeed = 2.0f;
-	*/
 
 	public float StepSpeed = 1.0f;
 	public float RotateSpeed = 2.0f;

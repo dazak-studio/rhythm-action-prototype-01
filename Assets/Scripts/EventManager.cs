@@ -27,15 +27,6 @@ public class EventManager : MonoBehaviour {
 			{
 				_playerController.UpdateMoveDestination(_playerController.transform.position);
 			}
-			
-			/** legacy **
-				var mousePos = Input.mousePosition;			
-				var midPos = new Vector3(Screen.width, Screen.height) * .5f;
-				var dist = mousePos - midPos;
-				var angle = Mathf.Atan2(dist.y, dist.x) * Mathf.Rad2Deg - 90.0f;
-				
-				_playerController.Move(angle);
-			*/
 		}
 	}
 
