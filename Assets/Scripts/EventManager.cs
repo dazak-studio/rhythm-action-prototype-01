@@ -12,12 +12,22 @@ public class EventManager : MonoBehaviour {
 
 	private void MouseInput()
 	{
-		if (Input.GetKeyDown(KeyCode.Mouse0))
+		RaycastHit hitFire;
+		var rayFire = Camera.main.ScreenPointToRay(Input.mousePosition);
+		var isFoundHitObject = Physics.Raycast(rayFire, out hitFire);
+		
+		if (isFoundHitObject && hitFire.collider.gameObject.tag.Contains("Enemy"))
 		{
-			RaycastHit hitFire;
-			var rayFire = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-			if (Physics.Raycast(rayFire, out hitFire))
+			Outliner.FocusObject = hitFire.collider.gameObject;
+		}
+		else
+		{
+			Outliner.FocusObject = null;
+		}
+		
+		if (Input.GetKeyDown(KeyCode.Mouse0))
+		{			
+			if (isFoundHitObject)
 			{				
 				_playerController.UpdateMoveDestination(hitFire);
 			}

@@ -7,7 +7,6 @@ public class PlayerController : MonoBehaviour {
 		_animator = GetComponent<Animator>();
 		_destPoint = transform.TransformDirection(Vector3.forward);
 		_runningTime = Mathf.Epsilon;
-//		_attackedObject = null;
 		_isAction = false;
 	}
 
@@ -41,7 +40,7 @@ public class PlayerController : MonoBehaviour {
 		destination.y = transform.position.y;
 		
 		if (hitFire.collider.transform.tag.Contains("Enemy") 
-		    && Vector3.Distance(transform.position, destination) <= AttackRange)
+		    && IsInAttackRange(destination))
 		{						
 			Attack(hitFire.collider.gameObject);
 		}
@@ -64,7 +63,6 @@ public class PlayerController : MonoBehaviour {
 	private void OnCollisionEnter(Collision other)
 	{		
 		if (other.transform.tag.Contains("Enemy")
-//		    && _attackedObject != other.gameObject
 		    && _isAction == false)
 		{
 			Attack(other.gameObject);
@@ -73,14 +71,26 @@ public class PlayerController : MonoBehaviour {
 
 	private void Attack(GameObject target)
 	{
+		if (_currentBaseState.IsName("Base Layer.Attack"))
+		{
+			_animator.Play("Idle");			
+		}
+		
 		var destination = target.transform.position;
 		destination.y = transform.position.y;
 		
 		transform.LookAt(destination);
-		_runningTime = float.Epsilon;
+		_runningTime = Mathf.Min(_runningTime, 0.2f);
 		_animator.SetBool("Attack", true);
-//		_attackedObject = target;
 		_isAction = true;
+		
+		target.GetComponent<Outliner>().SetOutlineThick(0.1f);
+	}
+
+	public bool IsInAttackRange(Vector3 destination)
+	{
+		//print(Vector3.Distance(transform.position, destination));
+		return Vector3.Distance(transform.position, destination) <= AttackRange;
 	}
 
 	public float StepSpeed;
@@ -91,7 +101,6 @@ public class PlayerController : MonoBehaviour {
 	private AnimatorStateInfo _currentBaseState;
 	
 	private bool _isAction;
-//	private GameObject _attackedObject;
 	private Vector3 _destPoint;
 	private float _destAngle;
 	private float _runningTime;

@@ -424,7 +424,7 @@ Prefab:
     - target: {fileID: 114208047926723364, guid: d7c7d1ec28332c64b9871a1d9b0a1b15,
         type: 2}
       propertyPath: RotateSpeed
-      value: 7
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 54201334729823612, guid: d7c7d1ec28332c64b9871a1d9b0a1b15,
         type: 2}
@@ -434,7 +434,7 @@ Prefab:
     - target: {fileID: 114208047926723364, guid: d7c7d1ec28332c64b9871a1d9b0a1b15,
         type: 2}
       propertyPath: AttackRange
-      value: 2
+      value: 1.25
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d7c7d1ec28332c64b9871a1d9b0a1b15, type: 2}
@@ -497,6 +497,7 @@ GameObject:
   - component: {fileID: 1663539988}
   - component: {fileID: 1663539987}
   - component: {fileID: 1663539986}
+  - component: {fileID: 1663539990}
   m_Layer: 0
   m_Name: Obstacle
   m_TagString: Enemy
@@ -559,7 +560,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 9ffd65c072c7058409934d96f73aa679, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -586,6 +587,17 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1663539984}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1663539990
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1663539984}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93d5d2b83bd84e28a746cb05c4cc1fa8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2056492848
 GameObject:
   m_ObjectHideFlags: 0
