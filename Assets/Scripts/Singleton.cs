@@ -4,7 +4,7 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 {
     private static T _instance = null;
 
-    public static T GetInstance { get { return _instance ?? GetInstanceObject(); } }
+    public static T GetInstance { get { return _instance ? _instance : GetInstanceObject(); } }
 
     protected virtual void Awake()
     {
