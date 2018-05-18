@@ -11,15 +11,17 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	private void FixedUpdate()
-	{	
+	{
+		if (!_isAction)
+			_animator.speed = StepSpeed * 0.25f * Accuracy;
+		
 		_animator.SetFloat("Speed", _runningTime);
-		_animator.speed = StepSpeed * 0.25f;
 		_currentBaseState = _animator.GetCurrentAnimatorStateInfo(0);
 
 		if (_runningTime > Mathf.Epsilon)
 		{
 			var velocity = transform.TransformDirection(Vector3.forward);
-			transform.localPosition += velocity * Time.fixedDeltaTime * StepSpeed * _animator.GetFloat("Speed");
+			transform.localPosition += velocity * Time.fixedDeltaTime * StepSpeed * _animator.GetFloat("Speed") * Accuracy;
 			_runningTime -= Time.fixedDeltaTime;
 			var angle = Mathf.LerpAngle(transform.eulerAngles.y, _destAngle, Time.fixedDeltaTime * RotateSpeed);
 			transform.eulerAngles = new Vector3(0, angle, 0);
@@ -29,9 +31,9 @@ public class PlayerController : MonoBehaviour {
 	private void Update()
 	{
 		if (!_currentBaseState.IsName("Base Layer.Attack") || _animator.IsInTransition(0)) return;
-		
-		_animator.SetBool("Attack", false);
 
+		_animator.SetBool("Attack", false);
+		_isAction = false;
 	}
 
 	public void UpdateMoveDestination(RaycastHit hitFire)
@@ -75,6 +77,8 @@ public class PlayerController : MonoBehaviour {
 		{
 			_animator.Play("Idle");			
 		}
+
+		_animator.speed = 1.5f;
 		
 		var destination = target.transform.position;
 		destination.y = transform.position.y;
@@ -93,6 +97,7 @@ public class PlayerController : MonoBehaviour {
 		return Vector3.Distance(transform.position, destination) <= AttackRange;
 	}
 
+	public float Accuracy;
 	public float StepSpeed;
 	public float RotateSpeed;
 	public float AttackRange;
