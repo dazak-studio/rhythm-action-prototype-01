@@ -7,8 +7,8 @@ public class EventManager : MonoBehaviour {
 	}
 
 	private void Update () {
-		MouseInput();		
-	}
+		MouseInput();
+		}
 
 	private void MouseInput()
 	{
@@ -26,7 +26,9 @@ public class EventManager : MonoBehaviour {
 		}
 		
 		if (Input.GetKeyDown(KeyCode.Mouse0))
-		{			
+		{
+			_playerController.Accuracy = RhythmManager.GetInstance.GetRhythmScore();
+			
 			if (isFoundHitObject)
 			{				
 				_playerController.UpdateMoveDestination(hitFire);

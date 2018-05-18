@@ -62,7 +62,7 @@ public class RhythmManager : Singleton<RhythmManager>
     private void SyncRhythm()
     {
         _syncRate = (_triggerTime - SoundManager.GetInstance.BgmAudioSource.time) / LiftTime;
-
+        
         if(_checkCycle == true && _syncRate < (1.0f - Accuracy))
         {
             _checkCycle = false;
@@ -78,50 +78,61 @@ public class RhythmManager : Singleton<RhythmManager>
         _checkCycle = true;
         _isTouchRhythmBar = true;
         
-    }                  
+    }
 
-    public bool JudgeRhythm()
+    public float GetRhythmScore()
     {
-        if(_syncRate < Accuracy ||  _syncRate > (1.0f - Accuracy)) 
-        {
-            if(_isTouchRhythmBar == false)
-            {
-                Debug.Log("SYNC RATE >>" + _syncRate);
-                _isTouchRhythmBar = true;
+        var tmpScore = Mathf.Abs((_triggerTime - SoundManager.GetInstance.BgmAudioSource.time) / LiftTime);
 
-                /* 
-                if(_syncRate > (1.0f - Accuracy))
-                {
-                    // remove last rhythmbar
-                    lastRhythmBar.GetComponent<RhythmBar>().ShowBar(false);
-                    bar_automata = BAR_AUTOMATA.REMOVE_LAST_BAR;
-                }
-                else
-                {
-                     firstRhythmBar.GetComponent<RhythmBar>().ShowBar(false);
-                     bar_automata = BAR_AUTOMATA.REMOVE_FIRST_BAR;
-                }*/
-                return true;
-            }
-
-            _isTouchRhythmBar = true;
-            
-            // 
-            return false;
-        }
+        if (tmpScore < 0.3f)
+            return (1.0f - tmpScore);
         else
-        {
-        
-        }
+            return tmpScore;
+    }
 
-        _isTouchRhythmBar = true;
-        Debug.Log("MISSED !");
-
-        // remove 0 rhythmbar
-        firstRhythmBar.GetComponent<RhythmBar>().ShowBar(false);
-        bar_automata = BAR_AUTOMATA.REMOVE_FIRST_BAR;
-        return false;
-    }                
+    
+//    public float JudgeRhythm()
+//    {
+//        if(_syncRate < Accuracy ||  _syncRate > (1.0f - Accuracy)) 
+//        {
+//            if(_isTouchRhythmBar == false)
+//            {
+//                Debug.Log("SYNC RATE >>" + _syncRate);
+//                _isTouchRhythmBar = true;
+//
+//                /* 
+//                if(_syncRate > (1.0f - Accuracy))
+//                {
+//                    // remove last rhythmbar
+//                    lastRhythmBar.GetComponent<RhythmBar>().ShowBar(false);
+//                    bar_automata = BAR_AUTOMATA.REMOVE_LAST_BAR;
+//                }
+//                else
+//                {
+//                     firstRhythmBar.GetComponent<RhythmBar>().ShowBar(false);
+//                     bar_automata = BAR_AUTOMATA.REMOVE_FIRST_BAR;
+//                }*/
+//                return true;
+//            }
+//
+//            _isTouchRhythmBar = true;
+//            
+//            // 
+//            return false;
+//        }
+//        else
+//        {
+//        
+//        }
+//
+//        _isTouchRhythmBar = true;
+//        Debug.Log("MISSED !");
+//
+//        // remove 0 rhythmbar
+//        firstRhythmBar.GetComponent<RhythmBar>().ShowBar(false);
+//        bar_automata = BAR_AUTOMATA.REMOVE_FIRST_BAR;
+//        return false;
+//    }                
 
     public const float Accuracy = 0.30f;
     
